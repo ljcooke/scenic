@@ -98,7 +98,7 @@ describe Scenic::SchemaDumper, :db do
     end
   end
 
-  context "with dependent views " do
+  context "with dependent views" do
     it "dumps create_view sorted alphabetically" do
       views = {
         "view1": "SELECT 'needle1'::text AS haystack",
@@ -134,7 +134,9 @@ describe Scenic::SchemaDumper, :db do
       end
 
       create_views = output.lines.grep(/create_view :/)
-      order = create_views.map { |line| line.scan(/:([a-z_0-9]+),/).first.first }
+      order = create_views.map do |line|
+        line.scan(/:([a-z_0-9]+),/).first.first
+      end
 
       expect(order).to eq(expected_order)
 
