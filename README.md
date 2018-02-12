@@ -132,8 +132,6 @@ no different than a table.
 class SearchResult < ActiveRecord::Base
   belongs_to :searchable, polymorphic: true
 
-  private
-
   # this isn't strictly necessary, but it will prevent
   # rails from calling save, which would fail anyway.
   def readonly?
@@ -198,6 +196,7 @@ Scenic gives you `drop_view` too:
 ```ruby
 def change
   drop_view :search_results, revert_to_version: 2
+  drop_view :materialized_admin_reports, revert_to_version: 3, materialized: true
 end
 ```
 
@@ -231,17 +230,24 @@ add_column :posts, :title, :string
 update_view :posts_with_aggregate_data, version: 2, revert_to_version: 2
 ```
 
-**When will you support MySQL?**
+**When will you support MySQL, SQLite, or other databases?**
 
-We have no plans to add first-party support for MySQL at this time because we
-(the maintainers) do not currently have a use for it. It's our experience that
-maintaining a library effectively requires regular use of its features. We're
-not in a good position to support MySQL users.
+We have no plans to add first-party adapters for other relational databases at
+this time because we (the maintainers) do not currently have a use for them.
+It's our experience that maintaining a library effectively requires regular use
+of its features. We're not in a good position to support MySQL, SQLite or other
+database users.
 
 Scenic *does* support configuring different database adapters and should be
 extendable with adapter libraries. If you implement such an adapter, we're happy
 to review and link to it. We're also happy to make changes that would better
 accommodate adapter gems.
+
+We are aware of the following existing adapter libraries for Scenic which may
+meet your needs:
+
+* [scenic_sqlite_adapter](https://github.com/pdebelak/scenic_sqlite_adapter)
+* [scenic-mysql_adapter](https://github.com/EmpaticoOrg/scenic-mysql_adapter.)
 
 ## About
 
@@ -252,7 +258,7 @@ thoughtbot, inc.
 [Derek Prior]: http://prioritized.net
 [Caleb Thompson]: http://calebthompson.io
 
-![thoughtbot](https://thoughtbot.com/logo.png)
+![thoughtbot](http://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
 
 We love open source software!  See [our other projects][community] or [hire
 us][hire] to help build your product.
